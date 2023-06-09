@@ -10,7 +10,8 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from "./entities/user.entity";
+import { User } from './entities/user.entity';
+import { DeleteResult } from 'typeorm';
 
 @Controller('user')
 export class UserController {
@@ -32,12 +33,12 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  remove(@Param('id') id: number): Promise<DeleteResult> {
+    return this.userService.delete(id);
   }
 }
